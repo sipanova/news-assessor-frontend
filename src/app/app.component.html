@@ -182,20 +182,44 @@
     <div class="left-side">
       
       <h1>{{ title }} app</h1>
+
       <hr class="divider" style="visibility: hidden;">
       <hr class="divider" style="visibility: hidden;">
       <label for="options" class="dropdown-label">Choose an LLM model:</label>
       <select id="options" [(ngModel)]="selectedOption" class="dropdown">
         <option *ngFor="let option of dropdownOptions" [value]="option">{{ option }}</option>
       </select>
+
+      <hr class="divider" style="visibility: hidden;">
+      <hr class="divider" style="visibility: hidden;">
+      <label for="emailInput" class="email-label">Enter your email:</label>
+      <input 
+        type="email" 
+        id="emailInput" 
+        [(ngModel)]="userEmail" 
+        name="email" 
+        #emailInput="ngModel"
+        class="email-input" 
+        placeholder="example@domain.com" 
+        required
+        email
+      />
+      <p class="error-message" *ngIf="emailInput.invalid && emailInput.touched && emailInput.value">
+        Please enter a valid email address.
+      </p>
+
       <hr class="divider" style="visibility: hidden;">
       <hr class="divider" style="visibility: hidden;">
       <label for="fileUpload" class="upload-label">Upload a CSV file:</label>
-      <input type="file" id="fileUpload" accept=".csv" (change)="handleFileUpload($event)" class="upload-input" />
+      <input type="file" id="fileUpload" #fileInput accept=".csv" (change)="handleFileUpload($event)" class="upload-input" />
+
       <hr class="divider" style="visibility: hidden;">
       <hr class="divider" style="visibility: hidden;">
-      <button (click)="handleClick()" class="custom-button">Process</button>
-      
+      <div class="button-container">
+        <button (click)="test_HandleClick()" class="custom-button">Test</button>
+        <button (click)="removeFile_HandleClick(fileInput)" class="custom-button">Remove file</button>
+        <button (click)="process_HandleClick(fileInput)" class="custom-button">Process</button>
+      </div>
     </div>
     <div class="divider" role="separator" aria-label="Divider"></div>
     <div class="right-side">
