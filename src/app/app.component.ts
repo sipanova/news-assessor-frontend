@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
   title = 'SwissRep';
   selectedOption = 'GPT-4o'; // Default selected value
   dropdownOptions = ['GPT-4o', 'Llama-3.2-3B-Instruct']; // Dropdown values
-  userEmail: string = '';
+  // userEmail: string = '';
 
   private backendService = inject(BackendService);  // Inject ApiService
 
@@ -39,30 +39,30 @@ export class AppComponent implements OnInit {
       return;
     }
 
-    if (!this.isValidEmail(this.userEmail)) {
-      alert('Please enter a valid email address.');
-      return;
-    }
+    // if (!this.isValidEmail(this.userEmail)) {
+    //   alert('Please enter a valid email address.');
+    //   return;
+    // }
   
     const formData = new FormData();
     formData.append('file', file);
     formData.append('model', this.selectedOption); // Attach selected LLM model
-    formData.append('email', this.userEmail); // Attach user email
+    // formData.append('email', this.userEmail); // Attach user email
 
     console.log('LLM:', this.selectedOption);
-    console.log('Email:', this.userEmail);
+    // console.log('Email:', this.userEmail);
 
     this.backendService.process(formData).subscribe(
       response => {
         console.log('File processed successfully:', response);
         fileInput.value = '';
-        this.userEmail = '';
+        // this.userEmail = '';
       },
       error => {
         console.error('Error processing file:', error);
         alert('An error occurred while processing the file.');
         fileInput.value = '';
-        this.userEmail = '';
+        // this.userEmail = '';
       }
     );
   }

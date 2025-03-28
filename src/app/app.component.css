@@ -106,20 +106,20 @@ h1 {
     width: 100%;
   }
 
-  .email-label {
+  /* .email-label {
     display: block;
     margin-bottom: 5px; /* Space between the label and input */
     font-weight: 500;
-  }
+  } */
   
-  .email-input {
+  /* .email-input {
     width: 100%;
     padding: 8px;
     box-sizing: border-box;
     border: 1px solid var(--gray-400);
     border-radius: 4px;
     font-size: 1rem;
-  }
+  } */
   
   .error-message {
     color: red;
@@ -127,6 +127,6 @@ h1 {
     margin-top: 5px;
   }
   
-  .email-input.ng-invalid.ng-touched {
+  /* .email-input.ng-invalid.ng-touched {
     border-color: red;
-  }
+  } */
