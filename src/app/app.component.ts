@@ -16,6 +16,7 @@ export class AppComponent implements OnInit {
   selectedOption = 'GPT-4o'; // Default selected value
   dropdownOptions = ['GPT-4o', 'Llama-3.2-3B-Instruct']; // Dropdown values
   // userEmail: string = '';
+  loading = false; // Track loading state
 
   private backendService = inject(BackendService);  // Inject ApiService
 
@@ -38,33 +39,30 @@ export class AppComponent implements OnInit {
       fileInput.value = ''; // Reset file input
       return;
     }
-
-    // if (!this.isValidEmail(this.userEmail)) {
-    //   alert('Please enter a valid email address.');
-    //   return;
-    // }
   
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('model', this.selectedOption); // Attach selected LLM model
-    // formData.append('email', this.userEmail); // Attach user email
+    formData.append('model', this.selectedOption); 
 
     console.log('LLM:', this.selectedOption);
-    // console.log('Email:', this.userEmail);
+    this.loading = true;
 
-    this.backendService.process(formData).subscribe(
-      response => {
+    this.backendService.process(formData).subscribe({
+      next: (response) => {
         console.log('File processed successfully:', response);
         fileInput.value = '';
-        // this.userEmail = '';
       },
-      error => {
+      error: (error) => {
         console.error('Error processing file:', error);
         alert('An error occurred while processing the file.');
         fileInput.value = '';
-        // this.userEmail = '';
+        this.loading = false; 
+      },
+      complete: () => {
+        this.loading = false; 
       }
-    );
+    });
+
   }
 
   removeFile_HandleClick(fileInput: HTMLInputElement) {

@@ -220,6 +220,10 @@
         <button (click)="removeFile_HandleClick(fileInput)" class="custom-button">Remove file</button>
         <button (click)="process_HandleClick(fileInput)" class="custom-button">Process</button>
       </div>
+      <div *ngIf="loading" class="spinner-overlay">
+        <div class="spinner"></div>
+        <p>Processing file, it takes few minutes ^_^</p>
+      </div>
     </div>
     <div class="divider" role="separator" aria-label="Divider"></div>
     <div class="right-side">
