@@ -222,14 +222,15 @@
       </div>
       <div *ngIf="loading" class="spinner-overlay">
         <div class="spinner"></div>
-        <p>Processing file, it takes few minutes ^_^</p>
+        <p>Processing file, it takes few minutes ^_^  {{ timer }}</p>
       </div>
     </div>
     <div class="divider" role="separator" aria-label="Divider"></div>
     <div class="right-side">
       <div class="pill-group">
         @for (item of [
-          { title: 'Documentation', link: 'https://angular.dev' },
+          { title: 'Backend repo', link: 'https://github.com/sipanova/news-assessor-backend' },
+          { title: 'Frontend repo', link: 'https://github.com/sipanova/news-assessor-frontend' },
           { title: 'meta-llama', link: 'https://huggingface.co/meta-llama' },
         ]; track item.title) {
           <a

@@ -17,6 +17,9 @@ export class AppComponent implements OnInit {
   dropdownOptions = ['GPT-4o', 'Llama-3.2-3B-Instruct']; // Dropdown values
   // userEmail: string = '';
   loading = false; // Track loading state
+  timer = '00:00'; 
+  private seconds = 0;
+  private intervalId: any;
 
   private backendService = inject(BackendService);  // Inject ApiService
 
@@ -46,7 +49,7 @@ export class AppComponent implements OnInit {
 
     console.log('LLM:', this.selectedOption);
     this.loading = true;
-
+    this.startTimer();
     this.backendService.process(formData).subscribe({
       next: (response) => {
         console.log('File processed successfully:', response);
@@ -57,9 +60,11 @@ export class AppComponent implements OnInit {
         alert('An error occurred while processing the file.');
         fileInput.value = '';
         this.loading = false; 
+        this.stopTimer()
       },
       complete: () => {
         this.loading = false; 
+        this.stopTimer()
       }
     });
 
@@ -95,6 +100,37 @@ export class AppComponent implements OnInit {
     return emailPattern.test(email);
   }
 
+  startTimer() {
+    this.seconds = 0;
+    this.timer = '00:00'; 
+    this.intervalId = setInterval(() => {
+      this.seconds++;
+      const minutes = Math.floor(this.seconds / 60);
+      const secs = this.seconds % 60;
+      this.timer = this.formatTime(minutes, secs);
+    }, 1000);
+  }
+
+  formatTime(minutes: number, seconds: number): string {
+    return `${this.pad(minutes)}:${this.pad(seconds)}`;
+  }
+
+  stopTimer() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+      this.intervalId = null;
+    }
+  }
+
+  pad(value: number): string {
+    return value < 10 ? `0${value}` : `${value}`;
+  }
+
+  ngOnDestroy() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+  }
 
 }
 
