@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { endpoints } from '../environments/endpoints';
 import { catchError, Observable, throwError } from 'rxjs';
@@ -18,7 +18,21 @@ export class BackendService {
    * @returns Observable of the API response.
    */
   process(fileData: FormData): Observable<any> {
-    return this.http.post(`${this.baseUrl}${endpoints.process}`, fileData).pipe(
+    const headers = new HttpHeaders({
+      'ngrok-skip-browser-warning': 'true'
+    });
+  
+    return this.http.post(`${this.baseUrl}${endpoints.process}`, fileData, { headers }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  health_post(): Observable<any> {
+    const headers = new HttpHeaders({
+      'ngrok-skip-browser-warning': 'true'
+    });
+  
+    return this.http.post(`${this.baseUrl}${endpoints.health}`, { headers }).pipe(
       catchError(this.handleError)
     );
   }
@@ -28,7 +42,11 @@ export class BackendService {
    * @returns Observable of the API response.
    */
   health(): Observable<any> {
-    return this.http.get(`${this.baseUrl}${endpoints.health}`).pipe(
+    const headers = new HttpHeaders({
+      'ngrok-skip-browser-warning': 'true'
+    });
+  
+    return this.http.get(`${this.baseUrl}${endpoints.health}`, { headers }).pipe(
       catchError(this.handleError)
     );
   }

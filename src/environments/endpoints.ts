@@ -1,6 +1,6 @@
 
 
 export const endpoints = {
-    health: '/health',
+    health: '/',
     process: '/process'
 };
