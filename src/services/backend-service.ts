@@ -9,6 +9,7 @@ import { catchError, Observable, throwError } from 'rxjs';
 })
 export class BackendService {
   private baseUrl = environment.apiUrl;
+  private googleColab_apiUrl = environment.googleColab_apiUrl;
 
   constructor(private http: HttpClient) {}
 
@@ -21,10 +22,26 @@ export class BackendService {
     const headers = new HttpHeaders({
       'ngrok-skip-browser-warning': 'true'
     });
-  
-    return this.http.post(`${this.baseUrl}${endpoints.process}`, fileData, { headers }).pipe(
-      catchError(this.handleError)
-    );
+
+    switch (fileData.get("model")) {
+      case "GPT-4o":
+        return this.http.post(`${this.baseUrl}${endpoints.process}`, fileData, { headers }).pipe(
+          catchError(this.handleError)
+        );
+      case "Llama-3.2-3B-Instruct":
+        return this.http.post(`${this.googleColab_apiUrl}${endpoints.health}`, fileData, { headers }).pipe(
+          catchError(this.handleError)
+        );
+
+        // return this.http.post(`${this.googleColab_apiUrl}${endpoints.process}`, fileData, { headers }).pipe(
+        //   catchError(this.handleError)
+        // );
+      default:
+        return this.http.post(`${this.baseUrl}${endpoints.health}`, { headers }).pipe(
+          catchError(this.handleError)
+        );
+    }
+
   }
 
   health_post(): Observable<any> {
@@ -41,12 +58,20 @@ export class BackendService {
    * Calls the FastAPI health check endpoint.
    * @returns Observable of the API response.
    */
-  health(): Observable<any> {
+  local_health(): Observable<any> {
+    const headers = new HttpHeaders({});
+  
+    return this.http.get(`${this.baseUrl}${endpoints.health}`, { headers }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  gooogle_colab_health(): Observable<any> {
     const headers = new HttpHeaders({
       'ngrok-skip-browser-warning': 'true'
     });
   
-    return this.http.get(`${this.baseUrl}${endpoints.health}`, { headers }).pipe(
+    return this.http.get(`${this.googleColab_apiUrl}${endpoints.health}`, { headers }).pipe(
       catchError(this.handleError)
     );
   }

@@ -2,5 +2,6 @@
 
 export const environment = {
     production: true,
-    apiUrl: ''
+    apiUrl: '',
+    googleColab_apiUrl: ''
 };

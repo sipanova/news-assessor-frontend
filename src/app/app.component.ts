@@ -24,8 +24,12 @@ export class AppComponent implements OnInit {
   private backendService = inject(BackendService);  // Inject ApiService
 
   ngOnInit() {
-    this.backendService.health().subscribe(response => {
-      console.log('Init health check:', response);
+    this.backendService.local_health().subscribe(response => {
+      console.log('Init local health check:', response);
+    });
+
+    this.backendService.gooogle_colab_health().subscribe(response => {
+      console.log('Init google_colab health check:', response);
     });
   }
 
@@ -50,6 +54,8 @@ export class AppComponent implements OnInit {
     console.log('LLM:', this.selectedOption);
     this.loading = true;
     this.startTimer();
+
+
     this.backendService.process(formData).subscribe({
       next: (response) => {
         console.log('File processed successfully:', response);
@@ -74,11 +80,17 @@ export class AppComponent implements OnInit {
     fileInput.value = ''; // Reset file input
     console.log('File input reset.');
   }
+
   test_HandleClick() {
-    this.backendService.health().subscribe(response => {
-      console.log('Health check on button click, response: ', response);
+    this.backendService.local_health().subscribe(response => {
+      console.log('Local health check on button click, response: ', response);
+    });
+
+    this.backendService.gooogle_colab_health().subscribe(response => {
+      console.log('Local google_colab check on button click, response: ', response);
     });
   }
+
   handleFileUpload(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length === 1) {
