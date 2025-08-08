@@ -14,7 +14,7 @@ import { BackendService } from '../services/backend-service';
 export class AppComponent implements OnInit {
   title = 'SwissRep';
   selectedOption = 'GPT-4o'; // Default selected value
-  dropdownOptions = ['GPT-4o', 'Llama-3.2-3B-Instruct']; // Dropdown values
+  dropdownOptions = ['GPT-4o']; // Dropdown values
   // userEmail: string = '';
   loading = false; // Track loading state
   timer = '00:00'; 
@@ -131,6 +131,7 @@ export class AppComponent implements OnInit {
     if (this.intervalId) {
       clearInterval(this.intervalId);
       this.intervalId = null;
+      console.log('Pocessing time: ', this.timer);
     }
   }
 
